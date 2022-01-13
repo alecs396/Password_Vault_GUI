@@ -2,6 +2,19 @@ import sqlite3
 import hashlib
 from tkinter import *
 
+# Database Code
+with sqlite3.connect("password_vault.db") as db:
+    cursor = db.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS vaultkey(
+    id INTEGER PRIMARY KEY
+    v_key TEXT NOT NULL
+)               
+""")
+
+
+# Create Window
 window = Tk()
 
 window.title("Password Vault")
@@ -35,7 +48,11 @@ def firstLogin():
 
     def saveKey():
         if txt.get() == txt2.get():
-            pass
+            hashedKey = txt.get()
+            
+            insert_key = """INSERT INTO vaultkey(v_key)
+            VALUES(?) """
+            cursor.execute(insert_key, [(hashedKey)])
         else:
             message.config(text="Keys do not match")
     
