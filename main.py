@@ -84,7 +84,7 @@ def loginScreen():
     
     def getVaultKey():
         checkHashedKey = txt.get()
-        cursor.execute('SELECT * FROM vaultkey WHERE id = 1 AND password = ?', [(checkHashedKey)])
+        cursor.execute("SELECT * FROM vaultkey WHERE id = 1 AND v_key = ?", [(checkHashedKey)])
         return cursor.fetchall()
     
     def checkPassword():
@@ -116,7 +116,7 @@ def passwordVault():
     
     
         
-cursor.execute('SELECT * FROM vaultkey')
+cursor.execute("SELECT * FROM vaultkey")
 if cursor.fetchall():
     loginScreen()
 else:
