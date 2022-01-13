@@ -9,7 +9,7 @@ window.title("Password Vault")
 def firstLogin():
     """This Function will only run when in first use.  This will allow the user to create their master password"""
     # Create the Login Screen
-    window.geometry('250x100')
+    window.geometry('250x150')
     
     lbl = Label(window, text="Create Vault Key")
     lbl.config(anchor=CENTER)
@@ -28,13 +28,23 @@ def firstLogin():
     txt2 = Entry(window, width=20, show="*")
     txt2.pack()
     txt2.focus()
+    
+    # Create Status Message
+    message = Label(window)
+    message.pack()
 
     def saveKey():
-        
+        if txt.get() == txt2.get():
+            pass
+        else:
+            message.config(text="Keys do not match")
     
     # Create Submit Button
     btn = Button(window, text='Submit', command=saveKey)
     btn.pack(pady=10)
+    
+    
+    
 def loginScreen():
     """This Function will create the login screen of the vault"""
     # Create the Login Screen
@@ -82,5 +92,5 @@ def passwordVault():
     
     
         
-loginScreen()
+firstLogin()
 window.mainloop()
