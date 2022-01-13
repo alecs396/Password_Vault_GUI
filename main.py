@@ -8,9 +8,8 @@ with sqlite3.connect("password_vault.db") as db:
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS vaultkey(
-    id INTEGER PRIMARY KEY
-    v_key TEXT NOT NULL
-)               
+    id INTEGER PRIMARY KEY,
+    v_key TEXT NOT NULL);             
 """)
 
 
@@ -53,6 +52,9 @@ def firstLogin():
             insert_key = """INSERT INTO vaultkey(v_key)
             VALUES(?) """
             cursor.execute(insert_key, [(hashedKey)])
+            db.commit()
+            
+            passwordVault()
         else:
             message.config(text="Keys do not match")
     
@@ -80,12 +82,17 @@ def loginScreen():
     message =  Label(window)
     message.pack()
     
+    def getVaultKey():
+        checkHashedKey = txt.get()
+        cursor.execute('SELECT * FROM vaultkey WHERE id = 1 AND password = ?', [(checkHashedKey)])
+        return cursor.fetchall()
+    
     def checkPassword():
         """This function will check if the password is correct"""
         
-        password = "test"
+        match = getVaultKey()
         
-        if password == txt.get():
+        if match:
             passwordVault()
         else:
             txt.delete(0, 'end')
@@ -109,5 +116,9 @@ def passwordVault():
     
     
         
-firstLogin()
+cursor.execute('SELECT * FROM vaultkey')
+if cursor.fetchall():
+    loginScreen()
+else:
+    firstLogin()              
 window.mainloop()
