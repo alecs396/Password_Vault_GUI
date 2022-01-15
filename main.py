@@ -18,6 +18,14 @@ window = Tk()
 
 window.title("Password Vault")
 
+def hashVaultKey(input):
+    """This function will hash the Vault Key that the user enters."""
+    hash = hashlib.md5(input)
+    hash = hash.hexdigest()
+    
+    return hash
+
+
 def firstLogin():
     """This Function will only run when in first use.  This will allow the user to create their master password"""
     # Create the Login Screen
@@ -47,7 +55,9 @@ def firstLogin():
 
     def saveKey():
         if txt.get() == txt2.get():
-            hashedKey = txt.get()
+            
+            # Create the hashed version of the Vault Key
+            hashedKey = hashVaultKey(txt.get().encode('utf-8'))
             
             insert_key = """INSERT INTO vaultkey(v_key)
             VALUES(?) """
@@ -83,14 +93,23 @@ def loginScreen():
     message.pack()
     
     def getVaultKey():
-        checkHashedKey = txt.get()
+        # Check if hashes match
+        checkHashedKey = hashVaultKey(txt.get().encode('utf-8'))
+        
         cursor.execute("SELECT * FROM vaultkey WHERE id = 1 AND v_key = ?", [(checkHashedKey)])
+        
+        # Test if hashing is working. Comment out Later
+        print(checkHashedKey)
+        
         return cursor.fetchall()
     
     def checkPassword():
         """This function will check if the password is correct"""
         
         match = getVaultKey()
+        
+        print(match)
+        
         
         if match:
             passwordVault()
