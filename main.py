@@ -1,17 +1,35 @@
 import sqlite3
 import hashlib
 from tkinter import *
+from tkinter import simpledialog
+from functools import partial
 
 # Database Code
 with sqlite3.connect("password_vault.db") as db:
     cursor = db.cursor()
 
+# Create database to manage the vault key
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS vaultkey(
     id INTEGER PRIMARY KEY,
     v_key TEXT NOT NULL);             
 """)
 
+# Create the vault database
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS vault(
+    id INTEGER PRIMARY KEY,
+    website TEXT NOT NULL,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL);             
+""")
+
+# Create popup
+def popUp(text):
+    answer = simpledialog.askstring("input string", text)
+    
+    return answer
 
 # Create Window
 window = Tk()
@@ -98,7 +116,7 @@ def loginScreen():
         
         cursor.execute("SELECT * FROM vaultkey WHERE id = 1 AND v_key = ?", [(checkHashedKey)])
         
-        # Test if hashing is working. Comment out Later
+        # Test if hashing is working. Comment out
         print(checkHashedKey)
         
         return cursor.fetchall()
@@ -127,13 +145,25 @@ def passwordVault():
     for widget in window.winfo_children():
         widget.destroy()
     
+    def addEntry():
+        text1 = "Website"
+        text2 = "Username"
+        text3 =  "E-Mail"
+        text4 = "Password"
+        
+        website = popUp(text1)
+        username = popUp(text2)
+        email = popUp(text3)
+        password = popUp(text4)
+    
     # Create New window
     window.geometry('700x350')
+    
     lbl = Label(window, text="Password Vault")
-    lbl.config(anchor=CENTER)
-    lbl.pack()
+    lbl.grid(column=1)
     
-    
+    btn = Button(window, text="+", command=addEntry)
+    btn.grid(column=1, pady=10)
         
 cursor.execute("SELECT * FROM vaultkey")
 if cursor.fetchall():
