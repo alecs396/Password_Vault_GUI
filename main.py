@@ -166,7 +166,7 @@ def passwordVault():
         
         passwordVault()
         
-    def removeEntry():
+    def removeEntry(input):
         """This function allows the user to remove an entry in their vault."""
         
         cursor.execute("DELETE FROM vault WHERE id = ?", (input,))
@@ -176,13 +176,14 @@ def passwordVault():
     
     # Create New window
     window.geometry('850x425')
-    
     lbl = Label(window, text="Password Vault")
     lbl.grid(column=1)
     
+    # Create button to add entries to database
     btn = Button(window, text="+", command=addEntry)
     btn.grid(column=1, pady=10)
     
+    # Display labels for entries
     lbl = Label(window, text="Website")
     lbl.grid(row=2, column=0, padx = 80)
     lbl = Label(window, text="Username")
@@ -191,6 +192,33 @@ def passwordVault():
     lbl.grid(row=2, column=2, padx = 80)
     lbl = Label(window, text="Password")
     lbl.grid(row=2, column=3, padx = 80)
+    
+    # Display entries from database
+    cursor.execute("SELECT * FROM vault")
+    if (cursor.fetchall() != None):
+        i = 0
+        while True:
+            cursor.execute("SELECT * FROM vault")
+            array = cursor.fetchall()
+            
+            lbl1 = Label(window, text=(array[i][1]), font=("Calibri", 12))
+            lbl1.grid(column=0, row=i+3)
+            lbl1 = Label(window, text=(array[i][2]), font=("Calibri", 12))
+            lbl1.grid(column=1, row=i+3)
+            lbl1 = Label(window, text=(array[i][3]), font=("Calibri", 12))
+            lbl1.grid(column=2, row=i+3)
+            lbl1 = Label(window, text=(array[i][4]), font=("Calibri", 12))
+            lbl1.grid(column=3, row=i+3)
+
+            # Create the delete button
+            btn = Button(window, text="Delete", command= partial(removeEntry, array[i][0]))
+            btn.grid(column=4, row=i+3, pady=10)
+            
+            i = i+1
+            
+            cursor.execute("SELECT * FROM vault")
+            if (len(cursor.fetchall()) <= i):
+                break
         
 cursor.execute("SELECT * FROM vaultkey")
 if cursor.fetchall():
