@@ -146,6 +146,8 @@ def passwordVault():
         widget.destroy()
     
     def addEntry():
+        """This function allows the user to add an entry into the vault by providing information through the popUp window function. Entries are then saved to the vault database."""
+        
         text1 = "Website"
         text2 = "Username"
         text3 =  "E-Mail"
@@ -164,16 +166,31 @@ def passwordVault():
         
         passwordVault()
         
-    
+    def removeEntry():
+        """This function allows the user to remove an entry in their vault."""
+        
+        cursor.execute("DELETE FROM vault WHERE id = ?", (input,))
+        db.commit()
+        
+        passwordVault()
     
     # Create New window
-    window.geometry('700x350')
+    window.geometry('850x425')
     
     lbl = Label(window, text="Password Vault")
     lbl.grid(column=1)
     
     btn = Button(window, text="+", command=addEntry)
     btn.grid(column=1, pady=10)
+    
+    lbl = Label(window, text="Website")
+    lbl.grid(row=2, column=0, padx = 80)
+    lbl = Label(window, text="Username")
+    lbl.grid(row=2, column=1, padx = 80)
+    lbl = Label(window, text="E-Mail")
+    lbl.grid(row=2, column=2, padx = 80)
+    lbl = Label(window, text="Password")
+    lbl.grid(row=2, column=3, padx = 80)
         
 cursor.execute("SELECT * FROM vaultkey")
 if cursor.fetchall():
