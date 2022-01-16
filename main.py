@@ -155,6 +155,16 @@ def passwordVault():
         username = popUp(text2)
         email = popUp(text3)
         password = popUp(text4)
+        
+        insert_fields = """INSERT INTO vault(website, username, email, password)
+        VALUES(?,?,?,?)"""
+        
+        cursor.execute(insert_fields, (website, username, email, password))
+        db.commit()
+        
+        passwordVault()
+        
+    
     
     # Create New window
     window.geometry('700x350')
