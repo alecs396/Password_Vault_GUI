@@ -1,8 +1,13 @@
+from cgitb import text
+from email import charset
+from operator import length_hint
 import sqlite3
 import hashlib
+import random
 from tkinter import *
 from tkinter import simpledialog
 from functools import partial
+from turtle import window_width
 
 # Database Code
 with sqlite3.connect("password_vault.db") as db:
@@ -24,6 +29,23 @@ CREATE TABLE IF NOT EXISTS vault(
     email TEXT NOT NULL,
     password TEXT NOT NULL);             
 """)
+
+
+# Create Password Generator
+def passwordGenerator():
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890"
+    
+    newPassword = ""
+    
+    for c in range(20):
+        newPassword += random.choice(chars)
+    
+    passLabel = Label(window, text=newPassword)
+    passLabel.grid(column=4, row=1)
+    return newPassword
+
+
+    
 
 # Create popup
 def popUp(text):
@@ -179,9 +201,17 @@ def passwordVault():
     lbl = Label(window, text="Password Vault")
     lbl.grid(column=1)
     
+    
+    # Create button to generate password
+    passbutton = Button(window, text="Generate New Password", command=passwordGenerator)
+    passbutton.grid(column=3, row=1, pady=10)
+    # getnewPass = passwordGenerator()
+    # newPass= Label(window, text=passwordGenerator())
+    # newPass.grid(column=4, row=1, padx=80)
+    
     # Create button to add entries to database
-    btn = Button(window, text="+", command=addEntry)
-    btn.grid(column=1, pady=10)
+    btn = Button(window, text="Add Entry", command=addEntry)
+    btn.grid(column=1, row=1, pady=10)
     
     # Display labels for entries
     lbl = Label(window, text="Website")
@@ -192,6 +222,7 @@ def passwordVault():
     lbl.grid(row=2, column=2, padx = 80)
     lbl = Label(window, text="Password")
     lbl.grid(row=2, column=3, padx = 80)
+    
     
     # Display entries from database
     cursor.execute("SELECT * FROM vault")
