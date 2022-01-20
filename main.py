@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS vault(
 
 # Create Password Generator
 def passwordGenerator():
+    """This Function allows user to generate a password of 20 character length.  The text will then be displayed next to the button."""
+    
     chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890"
     
     newPassword = ""
