@@ -1,13 +1,10 @@
-from cgitb import text
-from email import charset
-from operator import length_hint
 import sqlite3
 import hashlib
 import random
 from tkinter import *
 from tkinter import simpledialog
 from functools import partial
-from turtle import window_width
+
 
 # Database Code
 with sqlite3.connect("password_vault.db") as db:
@@ -199,9 +196,9 @@ def passwordVault():
         passwordVault()
     
     # Create New window
-    window.geometry('850x425')
-    lbl = Label(window, text="Password Vault")
-    lbl.grid(column=1)
+    window.geometry('1000x500')
+    # lbl = Label(window, text="Password Vault")
+    # lbl.grid(column=0)
     
     
     # Create button to generate password
@@ -213,7 +210,7 @@ def passwordVault():
     
     # Create button to add entries to database
     btn = Button(window, text="Add Entry", command=addEntry)
-    btn.grid(column=1, row=1, pady=10)
+    btn.grid(column=0, row=1, pady=10)
     
     # Display labels for entries
     lbl = Label(window, text="Website")

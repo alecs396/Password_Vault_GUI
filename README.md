@@ -24,3 +24,4 @@ I wanted to make this program because I had one of my passwords compromised and 
 # Next Things to do
 * Encrypt passwords
 * Redesign GUI to be more user friendly
+* Allow Copy/Paste for new passwords
