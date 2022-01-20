@@ -20,3 +20,7 @@ I wanted to make this program because I had one of my passwords compromised and 
 * [SQLite3 Documentation](https://sqlite.org/docs.html)
 * [Codemy Tkinter Tutorial](https://www.youtube.com/watch?v=YXPyB4XeYLA)
 * [Python Password Manager](https://www.youtube.com/watch?v=8e6HQvy7ggU)
+
+# Next Things to do
+* Encrypt passwords
+* Redesign GUI to be more user friendly
